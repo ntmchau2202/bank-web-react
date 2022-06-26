@@ -10,11 +10,13 @@ export class Client {
             timeout: clientConfig.timeOut,
             
         })
+        const middlewareClient = axios.create({
+            baseURL: clientConfig.middlewareUrl,
+            timeout: clientConfig.timeOut,
+            
+        })
         this.client = client
-    }
-
-    getCustomerInfo(customerID) {
-        
+        this.middlewareClient = middlewareClient
     }
 
     async getAllCustomer() {
@@ -37,10 +39,6 @@ export class Client {
         return listCustomer
     }
 
-    getSavingsAccountInfo(savingsAccountID) {
-
-    }
-
     async getAllSavingsAccount() {
         let listSavingsAccount = null
         await this.client.get("query", {
@@ -57,5 +55,26 @@ export class Client {
             throw error
         })
         return listSavingsAccount
+    }    
+
+    async decodeReceipt(body) {
+        console.log("Have we got here?", body)
+        let result = null
+
+        await this.middlewareClient.post("utils/decryptReceipt", {
+            command: "DECRYPT_RECEIPT",
+            details: {
+                receipt_body: body
+            }
+        }).then(function(response) {
+            if (response.status != 200) {
+                throw new Error(response.data.details.message)
+            } else {
+                result = response.data.details.decoded_receipt
+            }
+        }).catch(function(error) {
+            throw error
+        })
+        return result
     }    
 }

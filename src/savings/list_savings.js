@@ -4,13 +4,25 @@ import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table'
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import { FaPiggyBank } from 'react-icons/fa';
 
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import './../styles/tables.css'
-
+import { Client } from "../client/client";
+import { useState, useEffect } from "react";
 export var allSavingsAccount = []
 export var currentSelectedCutsomerSavingsAccount = []
 
 const SavingsAccounts = () => {
+    let [list, setListSavingsAccount] = useState([])
+    useEffect(() => {
+        const client = new Client()
+        client.getAllSavingsAccount().then(result => {
+            setListSavingsAccount(result)
+        }).catch(err => (console.log(err)))
+    }, [])
+    allSavingsAccount = []
+    allSavingsAccount = allSavingsAccount.concat(list)
+    console.log("Here we have our savings account list:", allSavingsAccount)
+
     return (
         <main>
             <header>
@@ -90,15 +102,15 @@ export function __renderSavingsAccount(listSavingsAccount) {
 
 function __renderAllSavingsAccount() {
     let listAccount = []
-    __sampleSavingsAccount.forEach(account => {
+    allSavingsAccount.forEach(account => {
         let row =  
             <Tr>
-                <Td>{<Link to={`/savings/${account.savings_id}`}>{account.savings_id}</Link>}</Td>
-                <Td>{account.amount}</Td>
+                <Td>{<Link to={`/savings/${account.savingsaccount_id}`}>{account.savingsaccount_id}</Link>}</Td>
+                <Td>{account.savings_amount}</Td>
                 <Td>{account.product_type}</Td>
                 <Td>{account.savings_period}</Td>
-                <Td>{account.interest_amount}</Td>
-                <Td>{account.savings_status}</Td>
+                <Td>{account.interest_rate}</Td>
+                <Td>{account.confirm_status}</Td>
             </Tr>
         listAccount.push(row)
     })

@@ -20,11 +20,12 @@ import {
 } from "react-router-dom";
 
 
-import Receipts from '../receipt/receipt';
+import Receipts from '../receipt/list_receipts';
 import Users from '../users/list_users';
 import Customer from '../users/user';
 import SavingsAccounts from '../savings/list_savings';
 import Savings from '../savings/savings';
+import Receipt from '../receipt/receipt';
 
 const Sidebar = ({ image, collapsed, rtl, toggled, handleToggleSidebar }) => {
     const intl = useIntl();
@@ -121,7 +122,7 @@ const Sidebar = ({ image, collapsed, rtl, toggled, handleToggleSidebar }) => {
           <Route exact path='savings' element={<SavingsAccounts/>} />
           <Route path="savings/:id" element={<Savings/>} />
           <Route exact path='receipts'/>
-          <Route path="receipts/:id"/>
+          <Route path="receipts/:id" element={<Receipt/>}/>
         </Routes>
       </Router>
       

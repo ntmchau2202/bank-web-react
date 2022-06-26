@@ -70,7 +70,7 @@ function __render(customerObject) {
                 {<Link to={`${element.customer_id}`}>{element.customer_name}</Link>}
             </Td>
             <Td>{element.active_status === true ? <FaCheckCircle color='green'/> : <FaMinusCircle color='red'/>}</Td>
-            <Td><button class='button'>{element.active_status === true ? 'Activate account' : 'Deactivate account'}</button></Td>
+            <Td><button class='button'>{element.active_status === true ? 'Deactivate account' : 'Activate account'}</button></Td>
         </Tr>
       result.push(row)
     });
